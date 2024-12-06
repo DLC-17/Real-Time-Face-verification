@@ -1,0 +1,101 @@
+import cv2
+import numpy as np
+import os
+
+# Ensure paths to necessary files
+trainer_path = 'Real-Time-Face-verification/trainer/trainer.yml'
+cascade_dir = "Real-Time-Face-verification/xml"  # Directory containing cascade files (default OpenCV cascades)
+cascade_files = [f for f in os.listdir(cascade_dir) if f.endswith('.xml')]  # List all .xml files
+
+# Check if trainer file exists
+if not os.path.exists(trainer_path):
+    print("[ERROR] Trainer file not found. Train the recognizer before running this script.")
+    exit()
+
+# Load the recognizer
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+recognizer.read(trainer_path)
+
+# Initialize a list for face cascades
+faceCasCades = []
+
+# Load all cascade classifiers from the specified directory
+for file in cascade_files:
+    cascade_path = os.path.join(cascade_dir, file)
+    faceCascade = cv2.CascadeClassifier(cascade_path)
+    if faceCascade.empty():
+        print(f"[ERROR] Haar cascade file {file} not loaded correctly.")
+    else:
+        faceCasCades.append(faceCascade)
+
+# Dictionary mapping IDs to names
+id_to_name = {
+    1: 'Person',        # Replace with your actual name and ID
+    2: 'Person2',   # Add other IDs and names as needed
+    3: 'Person3',
+    4: 'Person4',
+    5: 'person5'
+}
+
+# Initialize video capture
+cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+if not cam.isOpened():
+    print("[ERROR] Unable to access the camera.")
+    exit()
+
+# Define minimum window size for face detection
+minW = 0.1 * cam.get(3)
+minH = 0.1 * cam.get(4)
+
+print("\n[INFO] Starting real-time face recognition. Press 'ESC' to exit.")
+
+while True:
+    ret, img = cam.read()
+    if not ret:
+        print("[ERROR] Unable to read from camera.")
+        break
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    faces = []
+    for faceCascade in faceCasCades:
+        # Detect faces using each cascade
+        detected_faces = faceCascade.detectMultiScale(
+            gray,
+            scaleFactor=1.2,
+            minNeighbors=5,
+            minSize=(int(minW), int(minH)),
+        )
+        faces.extend(detected_faces)  # Append results from each cascade
+
+    for (x, y, w, h) in faces:
+        # Draw rectangle around the face
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        # Predict the ID and confidence level
+        id, confidence = recognizer.predict(gray[y:y + h, x:x + w])
+
+        # Use dictionary to fetch the name
+        if confidence < 100:
+            name = id_to_name.get(id, "Unknown")
+            confidence_text = f"{100 - confidence:.2f}%"
+        else:
+            name = "Unknown"
+            confidence_text = f"{100 - confidence:.2f}%"
+
+        # Display name and confidence
+        cv2.putText(img, name, (x + 5, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+        cv2.putText(img, confidence_text, (x + 5, y + h - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 1)
+
+    # Display the video feed with detections
+    cv2.imshow('camera', img)
+
+    # Exit on pressing 'ESC'
+    k = cv2.waitKey(10) & 0xff
+    if k == 27:
+        break
+
+# Cleanup
+print("\n[INFO] Exiting Program and cleanup.")
+cam.release()
+cv2.destroyAllWindows()
