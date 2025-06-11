@@ -1,72 +1,73 @@
-Overview
-This project implements a real-time face recognition system that utilizes OpenCV's LBPHFaceRecognizer for training and recognizing faces.
-The project allows for capturing user photos, training a model on the dataset, and recognizing faces in live video streams.
+# 🧑‍🤝‍🧑 Real-Time Face Recognition System
 
-This project is inspired by and incorporates foundational concepts and code from the Real-Time Face Recognition: An End-To-End Project by Marcelo Rovai.
+This project implements a real-time face recognition system using OpenCV's LBPHFaceRecognizer. It enables capturing user photos, training a facial recognition model, and recognizing faces in live video streams.
 
-Features:
-Captures and stores face images for different users.
-Trains a facial recognition model using the Local Binary Pattern Histogram (LBPH) algorithm.
-Uses multiple Haar cascade classifiers for robust face detection (including frontal and side profiles).
-Recognizes and displays user names with confidence levels in real-time.
-Supports adding new users dynamically without overwriting existing data.
+Inspired by the [Real-Time Face Recognition: An End-To-End Project](https://www.marcelo-rovai.com/) by Marcelo Rovai, this project incorporates foundational concepts and extends them for robust, real-time performance.
 
-Setup Instructions:
-Follow these steps to get started with the project:
+---
 
-1. Clone the Repository
+## 🚀 Features
 
-bash
-git clone https://github.com/DLC-17/Real-Time-Face-verification.git
-cd real-time-face-recognition
+- Capture and store face images for multiple users  
+- Train a facial recognition model using the Local Binary Pattern Histogram (LBPH) algorithm  
+- Utilize multiple Haar cascade classifiers for reliable face detection (frontal and side profiles)  
+- Real-time face recognition with user names and confidence levels displayed  
+- Support dynamic addition of new users without overwriting existing data  
+
+---
+
+## 🛠 Setup Instructions
+
+### 1. Clone the Repository
+    Make sure you have Python 3.x installed. Then install required libraries:
+    pip install opencv-python opencv-contrib-python numpy
+
 2. Install Dependencies
-Ensure Python 3.x is installed. Then, install the required Python libraries:
+Make sure you have Python 3.x installed. Then install required libraries:
+```bash
+  pip install opencv-python opencv-contrib-python numpy
+```
+4. Prepare Haar Cascade Files
+Ensure the Haar cascade XML files are located in the Real-Time/xml/ directory. If missing, download them from the OpenCV GitHub Haar Cascades.
 
-bash
-pip install opencv-python opencv-contrib-python numpy
-3. Prepare Haar Cascade Files
-Ensure the Haar cascade XML files are available in the specified directory:
+⚙️ Usage
+(a) Capture User Photos
+Run the script to collect face images:
+    
+    python collect_photos.py
+You will be prompted to enter a user name and a unique numeric ID. Photos will be saved in the Dataset/ directory.
 
-bash
-Real-Time/xml/
-If the files are missing, download them from OpenCV's GitHub: Haar Cascades.
-Ensure that all files have the neccessary directions to relevant directories and files
+(b) Train the Model
+Train the LBPH face recognizer on the collected photos:
+    
+     python train_model.py
+This generates a trained model file trainer.yml saved in the trainer/ directory.
 
-4. Run the Components
-  (a) Collect User Photos
-To collect photos of users, run:
-python collect_photos.py
-Enter the user's name and a unique numeric ID when prompted.
-Photos will be saved in the Dataset/ directory.
+(c) Run Real-Time Recognition
+Start the live face recognition system:
+    
+    python recognize_faces.py
+Faces will be detected and recognized in real-time from the webcam feed.
 
-  (b) Train the Model
-Train the facial recognition model with the collected photos:
-python train_model.py
-This will generate a file trainer.yml in the trainer/ directory.
+📂 Project Structure
 
-  (c) Run Real-Time Recognition
-Finally, recognize faces in a live video stream:
-python recognize_faces.py
+├── Dataset/                 # Captured user face images  
+├── Real-Time/  
+│   ├── xml/                 # Haar cascade XML files for face detection  
+│   ├── trainer/             # Trained model file (trainer.yml)  
+├── collect_photos.py        # Script to capture user photos  
+├── train_model.py           # Script to train the face recognition model  
+├── recognize_faces.py       # Script for real-time face recognition  
+├── requirements.txt         # Python dependencies  
 
-Project Structure:
-├── Dataset/                # Stores captured user face images
-├── Real-Time/
-│   ├── xml/                # Haar cascade files for face detection
-│   ├── trainer/            # Contains trained model file (trainer.yml)
-├── collect_photos.py       # Script for capturing user photos
-├── train_model.py          # Script for training the facial recognition model
-├── recognize_faces.py      # Script for real-time face recognition
-├── requirements.txt        # Python dependencies
+🙏 Acknowledgments
+This project is heavily inspired by Marcelo Rovai's Real-Time Face Recognition: An End-To-End Project. Many thanks for their clear explanations and guidance.
 
-Acknowledgments:
-This project is heavily inspired by the excellent work outlined in the Real-Time Face Recognition: An End-To-End Project. 
-Many thanks to the authors for their detailed explanations and implementation guidance.
+🤝 Contributing
+Contributions are welcome! Feel free to fork this repo and submit pull requests for improvements or new features.
 
-Contributing:
-Contributions are welcome! Feel free to fork the repository and create pull requests for improvements or additional features.
-
-License:
-This project is open-source and available under the MIT License. See the LICENSE file for details.
+📄 License
+This project is open source under the MIT License. See the LICENSE file for details.
 
 
 
