@@ -2,7 +2,7 @@
 
 This project implements a real-time face recognition system using OpenCV's LBPHFaceRecognizer. It enables capturing user photos, training a facial recognition model, and recognizing faces in live video streams.
 
-Inspired by the [Real-Time Face Recognition: An End-To-End Project]([https://www.marcelo-rovai.com/](https://medium.com/mjrobot-org/real-time-face-recognition-an-end-to-end-project-6a6d6173a6a3)) by Marcelo Rovai, this project incorporates foundational concepts and extends them for robust, real-time performance.
+Inspired by the [Real-Time Face Recognition: An End-To-End Project](https://medium.com/mjrobot-org/real-time-face-recognition-an-end-to-end-project-6a6d6173a6a3) by Marcelo Rovai, this project incorporates foundational concepts and extends them for robust, real-time performance.
 
 ---
 
